@@ -65,17 +65,55 @@ WHERE id = 3
 /* 9. Crear una tabla llamada "Productos" con las columnas: id (entero, clave
 primaria), nombre (texto) y precio (decimal*/
 
-  /* No se puede crear la tabla ya que el campo referenciado de productos de la tabla de pedidos no tiene integridad referencial y por lo tanto, primero se debe alterar eso*/
-
-ALTER TABLE pedidos
-ADD CONSTRAINT unique_constraint_name UNIQUE (producto)
-
-  /*Posteriormente, ya se puede crear la tabla de productos referenciandola a la tabla de pedidos a través del nombre del producto*/
-
-CREATE TABLE IF NOT EXISTS productos (
+ CREATE TABLE IF NOT EXISTS productos (
 	id SERIAL PRIMARY KEY,
 	nombre VARCHAR(255),
-	precio DECIMAL (10,2),
-	FOREIGN KEY (nombre) REFERENCES pedidos (producto)
-)
+	precio DECIMAL (10,2)
+	)
+
+/* 10.  Insertar varios productos en la tabla "Productos" con diferentes valores.*/
+
+INSERT INTO productos (nombre, precio)
+VALUES ('platano',2)
+
+/* 11. . Consultar todos los clientes de la tabla "Clientes".*/
+
+SELECT * FROM clientes
+
+/* 12.  Consultar todos los pedidos de la tabla "Pedidos" junto con los nombres de los
+clientes correspondientes. */
+
+SELECT pedidos.id,
+pedidos.cliente_id,
+pedidos.producto,
+pedidos.cantidad, clientes.nombre
+FROM pedidos
+LEFT JOIN clientes
+ON cliente_id = clientes.id
+
+/* 13. Consultar los productos de la tabla "Productos" cuyo precio sea mayor a $50.*/
+
+SELECT * FROM productos
+WHERE precio > 50
+
+/* 14. Consultar los pedidos de la tabla "Pedidos" que tengan una cantidad mayor o
+igual a 5.*/
+
+SELECT * FROM pedidos
+WHERE cantidad >= 5
+
+/* 15. Consultar los clientes de la tabla "Clientes" cuyo nombre empiece con la letra
+"A"*/
+
+SELECT * FROM clientes
+WHERE nombre LIKE 'a%'
+
+/* 16.  Realizar una consulta que muestre el nombre del cliente y el total de pedidos
+realizados por cada cliente.*/
+
+SELECT nombre, COUNT(pedidos.producto)
+FROM clientes
+LEFT JOIN pedidos
+ON clientes.id = pedidos.cliente_id
+GROUP BY clientes.nombre
 

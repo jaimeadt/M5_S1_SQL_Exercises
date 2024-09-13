@@ -37,9 +37,52 @@ tabla "Productos").*/
 primaria), "id_usuario" (entero, clave foránea de la tabla "Usuarios") y
 "id_producto" (entero, clave foránea de la tabla "Productos").*/
 
+	/*Primero se crea la tabla*/
+
 CREATE TABLE IF NOT EXISTS pedidos (
 	id SERIAL PRIMARY KEY,
 	id_usuario INT,
 	id_producto INT
 )
 
+	/*Después de crean las relaciones entre tablas*/
+
+ALTER TABLE pedidos
+ADD CONSTRAINT fk_id_usuario
+FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
+
+ALTER TABLE pedidos
+ADD CONSTRAINT fk_id_producto
+FOREIGN KEY (id_producto) REFERENCES productos (id)
+
+/*Retomamos el bullet del ejercicio anterior*/
+
+/* 5. Realiza una consulta que muestre los nombres de los usuarios junto con los
+nombres de los productos que han comprado (utiliza un INNER JOIN con la
+tabla "Productos").*/
+
+SELECT usuarios.nombre,
+productos.nombre
+FROM pedidos
+INNER JOIN usuarios
+ON pedidos.id_usuario = usuarios.id
+INNER JOIN productos
+ON pedidos.id_producto = productos.id
+
+/* 2. Inserta al menos tres registros en la tabla "Pedidos" que relacionen usuarios con
+productos.*/
+
+INSERT INTO pedidos (id_usuario, id_producto)
+VALUES (2,2)
+
+/* 3. Realiza una consulta que muestre los nombres de los usuarios y los nombres de
+los productos que han comprado, incluidos aquellos que no han realizado
+ningún pedido (utiliza LEFT JOIN y COALESCE).*/
+
+SELECT COALESCE(usuarios.nombre, 'sin nombre'),
+COALESCE(productos.nombre, 'sin pedido')
+FROM pedidos
+LEFT JOIN usuarios
+ON pedidos.id_usuario = usuarios.id
+LEFT JOIN productos
+ON pedidos.id_producto = productos.id

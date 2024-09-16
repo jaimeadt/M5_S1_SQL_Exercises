@@ -79,10 +79,34 @@ VALUES (2,2)
 los productos que han comprado, incluidos aquellos que no han realizado
 ningún pedido (utiliza LEFT JOIN y COALESCE).*/
 
-SELECT COALESCE(usuarios.nombre, 'sin nombre'),
+SELECT usuarios.nombre,
 COALESCE(productos.nombre, 'sin pedido')
-FROM pedidos
-LEFT JOIN usuarios
-ON pedidos.id_usuario = usuarios.id
+FROM usuarios
+LEFT JOIN pedidos
+ON usuarios.id = pedidos.id_usuario
 LEFT JOIN productos
 ON pedidos.id_producto = productos.id
+
+/* 4. Realiza una consulta que muestre los nombres de los usuarios que han
+realizado un pedido, pero también los que no han realizado ningún pedido
+(utiliza LEFT JOIN).*/
+
+SELECT usuarios.nombre,
+COUNT (pedidos.id)
+FROM usuarios
+LEFT JOIN pedidos
+ON usuarios.id = pedidos.id_usuario
+GROUP BY nombre
+
+/* 5. Agrega una nueva columna llamada "cantidad" a la tabla "Pedidos" y actualiza
+los registros existentes con un valor (utiliza ALTER TABLE y UPDATE)*/
+
+	/*Primero se crea la nueva columna cantidad*/
+
+ALTER TABLE pedidos
+ADD COLUMN cantidad INT
+
+	/*Posteriormente se insertan los valores*/
+
+UPDATE pedidos
+SET cantidad = 5

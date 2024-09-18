@@ -134,3 +134,57 @@ correspondientes utilizando un left join.*/
 SELECT * FROM pedidos
 LEFT JOIN clientes
 ON cliente_id = clientes.id
+
+/* 23. Realiza una consulta para obtener todos los productos y los detalles de pedido
+correspondientes utilizando un inner join.*/
+
+  /* Primero se debe establecer la relación de Keys entre tablas*/
+
+ALTER TABLE detalles_pedido
+ADD FOREIGN KEY (producto_id) REFERENCES productos (id)
+
+  /*Posteriormente ya se ejecuta la consulta*/
+
+SELECT * FROM detalles_pedido
+INNER JOIN productos
+ON producto_id = productos.id
+
+/* 24.  Realiza una consulta para obtener todos los productos y los detalles de pedido
+correspondientes utilizando un left join.*/
+
+SELECT * FROM detalles_pedido
+LEFT JOIN productos
+ON producto_id = productos.id
+
+/* 25. Crea una nueva columna llamada "telefono" de tipo cadena de texto en la tabla
+"Clientes".*/
+
+ALTER TABLE clientes
+ADD COLUMN tenefono VARCHAR(255)
+
+/* 26.  Modifica la columna "telefono" en la tabla "Clientes" para cambiar su tipo de
+datos a entero*/
+
+ALTER TABLE clientes
+ALTER COLUMN tenefono TYPE INT
+USING tenefono::integer
+
+/* 27.  Elimina la columna "telefono" de la tabla "Clientes".*/
+
+ALTER TABLE clientes
+DROP COLUMN tenefono
+
+/* 28. Cambia el nombre de la tabla "Clientes" a "Usuarios".*/
+
+ALTER TABLE clientes
+RENAME TO usuarios
+
+/* 29.  Cambia el nombre de la columna "nombre" en la tabla "Usuarios" a
+"nombre_completo".*/
+
+ALTER TABLE usuarios
+RENAME COLUMN nombre TO nombre_completo
+
+/* 30. Agrega una restricción de clave primaria a la columna "id" en la tabla "Usuarios"*/
+
+  /*Al crear la tabla de usuarios ya se ha creado el campo id con la restricción de clave primaria*/

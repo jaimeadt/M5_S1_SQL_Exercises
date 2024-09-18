@@ -113,3 +113,24 @@ WHERE id = 1
 /* 20.  Lee todos los detalles de pedido de la tabla "DetallesPedido".*/
 
 SELECT * detalles_pedido
+
+/* 21. Realiza una consulta para obtener todos los clientes y sus pedidos
+correspondientes utilizando un inner join.*/
+
+  /* Primero se debe establecer la relación de Keys entre tablas*/
+
+ALTER TABLE pedidos
+ADD FOREIGN KEY (cliente_id) REFERENCES clientes (id)
+
+  /*Posteriormente ya se ejecuta la consulta*/
+
+SELECT * FROM pedidos
+INNER JOIN clientes
+ON cliente_id = clientes.id
+
+/* 22. Realiza una consulta para obtener todos los clientes y sus pedidos
+correspondientes utilizando un left join.*/
+
+SELECT * FROM pedidos
+LEFT JOIN clientes
+ON cliente_id = clientes.id
